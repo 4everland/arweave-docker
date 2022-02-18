@@ -1,0 +1,23 @@
+services:
+  arweave-node:
+    image: 4everland/arweave-node:testnet
+    expose:
+      - 1984
+    ports:
+      - "1984:1984"
+    volumes:
+      - ./start.sh:/app/start.sh
+      # - ./bin-start-arm64.sh:/app/bin/start
+    networks:
+      - arweave-net
+  miner:
+    image: 4everland/arweave-node:testnet
+    entrypoint: ["/app/miner.sh"]
+    links:
+      - arweave-node
+    volumes:
+      - ./miner.sh:/app/miner.sh
+    networks:
+      - arweave-net
+networks:
+  arweave-net:
